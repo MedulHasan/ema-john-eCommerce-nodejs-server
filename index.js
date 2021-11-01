@@ -49,9 +49,16 @@ async function run() {
         // use post to get order
         app.post('/order', async (req, res) => {
             const order = req.body;
+            order.createdAt = new Date();
+            console.log(order);
             const result = await orderCollection.insertOne(order);
+            res.json(result);
+        });
 
-            res.send(result);
+        app.get('/order', async (req, res) => {
+            const order = orderCollection.find({});
+            const result = await order.toArray();
+            res.json(result);
         })
 
     }
